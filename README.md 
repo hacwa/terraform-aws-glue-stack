@@ -1,22 +1,9 @@
-# How to run
-# 1. Copy files into a repo matching the paths above.
-# 2. `terraform init`
-# 3. `terraform apply -auto-approve`
-# 4. Upload sample CSVs to `s3://$(terraform output -raw bucket_name)/raw/`
-# 5. Start the crawler: `aws glue start-crawler --name wex-raw-csv`
-# 6. Run the ETL job from Console or CLI: `aws glue start-job-run --job-name wex-transform \
-#       --arguments '{"--s3_bucket":"<bucket>","--jdbc_url":"jdbc:mysql://<endpoint>:3306/wexdb","--db_user":"glue_admin","--db_pass":"<pwd>"}'`
+## things left to do
 
-
-
-export BUCKET=$(terraform output -raw bucket_name)
-
-printf 'id,name\n1,Alice\n2,Bob\n' > /tmp/demo.csv
-
-aws s3 cp /tmp/demo.csv "s3://$BUCKET/raw/demo.csv"
-
-aws glue start-job-run --job-name wex8-glue-transform
-
+Find a way to deploy this on a locked down windows laptop
+add steps how to configure power BI
+find out and add phoenix IP range ( then make this private or move somewhere internally)
+steps to tear down
 
 
 
@@ -89,4 +76,11 @@ aws s3 cp /tmp/demo.csv "s3://$BUCKET/raw/demo.csv"
 
 aws glue start-job-run --job-name wex8-glue-transform
 
+# Step  - pbtain creds for Power BI
 
+terraform output -raw rds_username && \
+terraform output -raw rds_password
+
+
+# Step  - Tear down
+terraform apply --auto-approve
