@@ -139,7 +139,7 @@ terraform init
 ```
 
 ```powershell
-terraform apply --auto-approve"
+terraform apply --auto-approve
 ```
 
 Or capture and reuse the project name dynamically:
