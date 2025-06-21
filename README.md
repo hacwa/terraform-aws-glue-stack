@@ -245,7 +245,7 @@ terraform output -raw rds_password
 
 ---
 
-## Step 8 - Tear DownMore actions
+## Step 8 - Tear Down
 
 ```powershell
 $PROJECT = terraform output -raw project
