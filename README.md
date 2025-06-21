@@ -262,6 +262,7 @@ terraform destroy --auto-approve -var "project=$PROJECT"
 
 <details>
 <summary><strong>Troubleshooting</strong></summary>
+
 ### Glue
 
 <details>
