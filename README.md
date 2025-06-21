@@ -48,14 +48,16 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocola
 3. Exit the shell and reopen PowerShell as Administrator.
 
 4. Install required tools:
+
 ```powershell
 choco install terraform
 ```
+
 ```powershell
-```
 choco install awscli
-```powershell
 ```
+
+```powershell
 choco install git.install
 ```
 
