@@ -20,8 +20,10 @@
 ## Things Left To Do
 
 - Document requesting admin access to install Chocolatey
-- Find and document Phoenix IP range (then restrict RDS access to it)
-- Once IP is known, make this repo private or move it to an internal Cap repo
+- Find Phoenix IP range.
+    - Once IP range is known:
+    - Update SG
+    - Make this repo private and move it to an internal Cap repo
 
 ---
 
