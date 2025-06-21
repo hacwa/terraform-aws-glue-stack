@@ -48,19 +48,20 @@ This works, but makes automation and `destroy` less predictable.
 **Recommended: set the project name explicitly for consistency and reuse**
 
 ```powershell
-terraform apply --auto-approve -var "project=timeywimey20250621"
+$PROJECT = "timeywimey20250621"
+terraform apply --auto-approve -var "project=$PROJECT"
 ```
 
  Choose a short-ish, lowercase name like `oddment`, `timeywimey`, or `projectx`.
 It will be prepended to all resource names like:
 
-- `timeywimey-glue-job`
-- `timeywimey-glue-mysql`
-- `timeywimey-glue-bucket`
+- `timeywimey20250621-glue-job`
+- `timeywimey20250621-glue-mysql`
+- `timeywimey20250621-glue-bucket`
 
 **Important:**
 This prefix is used to name the **S3 bucket**, which must be **globally unique across all AWS accounts**.
-If Terraform fails due to a name conflict, try a more specific prefix like `timeywimey20250621` or add your initials.
+If Terraform fails due to a name conflict, try a more specific prefix like `timeywimeyoddishexecutor20250621` or add your initials.
 
 ---
 
