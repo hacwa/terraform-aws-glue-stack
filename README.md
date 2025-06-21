@@ -34,7 +34,7 @@ This project uses a **project name prefix** to name all key resources:
 
 
 <details>
-<summary>⚠️ Relying on prompt-based input (not recommended)</summary>
+<summary>Relying on prompt-based input (not recommended)</summary>
 
 If you don’t specify the variable, Terraform will prompt you for it at apply time:
 
@@ -109,7 +109,8 @@ When choosing an account, select **"Access Keys"**  > Powershell — you’ll us
 
 You have two options:
 
-### Option 1 - Persistent
+<details>
+<summary>Option 1 - Persistent (recommended)</summary>
 
 1. Create or edit this file:
    `C:\Users\<YourUsername>\.aws\credentials`
@@ -128,13 +129,21 @@ You have two options:
     aws configure set region eu-west-1
     ```
 
-### Option 2 - Temporary (session-only)
+</details>
+
+<details>
+<summary>Option 2 - Temporary (session-only)</summary>
+
+Use these only for short-lived or one-off sessions:
 
 ```powershell
 $env:AWS_ACCESS_KEY_ID = "YOUR_ACCESS_KEY_ID"
 $env:AWS_SECRET_ACCESS_KEY = "YOUR_SECRET_ACCESS_KEY"
 $env:AWS_DEFAULT_REGION = "eu-west-1"
 ```
+
+These values will be lost when you close the PowerShell session.
+</details>
 
 ---
 
