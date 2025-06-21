@@ -284,7 +284,7 @@ aws glue list-jobs
 ---
 
 <details>
-<summary>Fix: If you set the credentials in the session instead of in the config, set the AWS region is set in your session</summary>
+<summary>Fix: Set Region</summary>
 
 ```powershell
 $env:AWS_DEFAULT_REGION = "eu-west-1"
