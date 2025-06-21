@@ -103,6 +103,8 @@ Go to [https://aws.amazon.com](https://aws.amazon.com) and sign up if needed.
 If you have access from **Indy**, sign in.
 When choosing an account, select **"Access Keys"**  > Powershell — you’ll use those in Step 2.
 
+![alt text](image.png)
+
 ---
 
 ## Step 2 - Add AWS Credentials in PowerShell
