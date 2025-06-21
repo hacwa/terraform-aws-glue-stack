@@ -217,8 +217,11 @@ aws s3 cp "$env:TEMP\$PROJECT-demo.csv" "s3://$BUCKET/raw/$PROJECT-demo.csv"
 ## Step 5 - Run Glue Job
 
 ```powershell
-$PROJECT = terraform output -raw project
-aws glue start-job-run --job-name "$PROJECT-glue-transform"
+$PROJECT = "timeywimey20250621"
+$JOB_NAME = "$PROJECT-glue-transform"
+aws glue start-job-run --job-name $JOB_NAME
+
+
 ```
 
 ---
