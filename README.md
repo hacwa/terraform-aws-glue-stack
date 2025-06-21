@@ -105,7 +105,7 @@ When prompted, select **"Access Keys"** — you’ll use those in Step 4.
 
 You have two options:
 
-### Option 1 – Persistent (recommended)
+### Option 1 – Persistent
 
 1. Create or edit this file:
    `C:\Users\<YourUsername>\.aws\credentials`
