@@ -86,8 +86,8 @@ If Terraform fails due to a name conflict, try `timeywimey20250621` or include y
 
 Go to [https://aws.amazon.com](https://aws.amazon.com) and sign up if needed.
 
-If you have access from **Indy**, sign in using **SSO**.
-When prompted, select **"Access Keys"** — you’ll use those in Step 2.
+If you have access from **Indy**, sign in.
+When choosing an account, select **"Access Keys"**  > Powershell — you’ll use those in Step 2.
 
 ---
 
@@ -138,11 +138,19 @@ cd terraform-aws-glue-stack
 terraform init
 ```
 
+<details>
+<summary> <code>terraform apply --auto-approve</code> (not recommended)</summary>
+
+This will prompt for the `project` name interactively.
+Only use this if you're testing manually and don’t need repeatability.
+
 ```powershell
 terraform apply --auto-approve
 ```
 
-Or capture and reuse the project name dynamically:
+</details>
+
+ **Recommended: set the project name explicitly for repeatability and teardown support**
 
 ```powershell
 $PROJECT = "timeywimey20250621"
