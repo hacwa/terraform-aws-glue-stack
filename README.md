@@ -253,7 +253,7 @@ Troubleshooting section and how to identify / resolve
 ---
 
 <details>
-<summary>Troubleshooting Glue (Click to expand)</summary>
+<summary>Glue (Click to expand)</summary>
 
 <details>
 <summary>Problem: No Glue jobs found or start-job-run fails</summary>
