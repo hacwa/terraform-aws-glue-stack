@@ -248,9 +248,12 @@ terraform output -raw rds_password
 <details>
 <summary>Gotchas (Click to expand)</summary>
 
-If you're using **temporary AWS credentials** (via environment variables rather than saved in `~\.aws\config`), region settings may cause errors.
+Some environment-related issues can break `aws glue` commands — especially when using temporary credentials via environment variables.
 
 ---
+
+<details>
+<summary>Troubleshooting Glue (Click to expand)</summary>
 
 <details>
 <summary>Problem: No Glue jobs found or start-job-run fails</summary>
@@ -290,7 +293,7 @@ aws glue list-jobs
 $env:AWS_DEFAULT_REGION = "eu-west-1"
 ```
 
-Re-check:
+Then re-check:
 
 ```powershell
 aws glue list-jobs
@@ -301,7 +304,7 @@ aws glue list-jobs
 ---
 
 <details>
-<summary>Example: Failing session (no region)</summary>
+<summary>Example: Failing session (region not set)</summary>
 
 ```powershell
 aws glue list-jobs
@@ -346,6 +349,8 @@ aws glue start-job-run --job-name $JOB_NAME
   "JobRunId": "jr_4cfec1edf8aae74472e4ed5b57c11fe9bdb4f80dbf3d0f9857ee66e6860ccb91"
 }
 ```
+
+</details>
 
 </details>
 
