@@ -157,7 +157,7 @@ terraform apply --auto-approve
 ### 🔎 Output to Note: `db_endpoint`
 
 After deploy, Terraform will print outputs.
-**The one you need is:**
+**The one you need to take note of is:**
 
 - `db_endpoint` → used as the **Server** field in Power BI
 
