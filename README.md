@@ -6,6 +6,7 @@
 - [Step 1 - Create an AWS Account](#step-1---create-an-aws-account)
 - [Step 2 - Add AWS Credentials in PowerShell](#step-2---add-aws-credentials-in-powershell)
 - [Step 3 - Clone and Deploy](#step-3---clone-and-deploy)
+- [Output to Note - db_endpoint](#output-to-note---db_endpoint)
 - [Step 4 - Create and Upload Test Data](#step-4---create-and-upload-test-data)
 - [Step 5 - Run Glue Job](#step-5---run-glue-job)
 - [Step 6 - Get RDS Credentials](#step-6---get-rds-credentials)
@@ -40,7 +41,12 @@ variable "project" {
 }
 ```
 
-Since there’s **no default**, Terraform will prompt you for a value during `terraform apply`.
+Since there's **no default**, Terraform will prompt you for a value —
+or you can set it explicitly like this:
+
+```powershell
+terraform apply --auto-approve -var "project=timeywimey"
+```
 
 Choose a short-ish, lowercase name like `oddment`, `timeywimey`, or `projectx`.
 It will be prepended to resource names like `timeywimey-glue-job`, `timeywimey-glue-bucket`, etc.
@@ -86,7 +92,7 @@ If Terraform fails due to a name conflict, try `timeywimey-20250621` or include 
 
 Go to [https://aws.amazon.com](https://aws.amazon.com) and sign up if needed.
 
-If you have access from **Indy**, sign in.
+If you have access from **Indy**, sign in using **SSO**.
 When prompted, select **"Access Keys"** — you’ll use those in Step 2.
 
 ---
@@ -139,7 +145,14 @@ terraform init
 ```
 
 ```powershell
-terraform apply --auto-approve
+terraform apply --auto-approve -var "project=timeywimey"
+```
+
+Or capture and reuse the project name dynamically:
+
+```powershell
+$PROJECT = "timeywimey"
+terraform apply --auto-approve -var "project=$PROJECT"
 ```
 
 ---
@@ -162,15 +175,16 @@ xxxx-xxxxx-xxxxx.xxxxx.eu-west-1.rds.amazonaws.com:3306
 ## Step 4 - Create and Upload Test Data
 
 ```powershell
+$PROJECT = terraform output -raw project
 $BUCKET = terraform output -raw bucket_name
 ```
 
 ```powershell
-"id,name`n1,Alice`n2,Bob" | Out-File -Encoding ASCII -FilePath $env:TEMP\demo.csv
+"id,name`n1,Alice`n2,Bob" | Out-File -Encoding ASCII -FilePath "$env:TEMP\$PROJECT-demo.csv"
 ```
 
 ```powershell
-aws s3 cp "$env:TEMP\demo.csv" "s3://$BUCKET/raw/demo.csv"
+aws s3 cp "$env:TEMP\$PROJECT-demo.csv" "s3://$BUCKET/raw/$PROJECT-demo.csv"
 ```
 
 ---
@@ -208,5 +222,7 @@ terraform output -raw rds_password
 ## Step 8 - Tear Down
 
 ```powershell
-terraform destroy --auto-approve
+$PROJECT = terraform output -raw project
+Write-Output "Destroying project: $PROJECT"
+terraform destroy --auto-approve -var "project=$PROJECT"
 ```

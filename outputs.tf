@@ -13,7 +13,6 @@ output "bucket_name" {
   value       = aws_s3_bucket.data.id
 }
 
-
 data "aws_secretsmanager_secret_version" "db_secret" {
   secret_id = module.rds.db_instance_master_user_secret_arn
 }
@@ -26,4 +25,8 @@ output "rds_username" {
 output "rds_password" {
   sensitive = true
   value     = jsondecode(data.aws_secretsmanager_secret_version.db_secret.secret_string)["password"]
+}
+
+output "project" {
+  value = var.project
 }
