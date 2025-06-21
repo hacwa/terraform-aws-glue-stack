@@ -245,6 +245,15 @@ terraform output -raw rds_password
 
 ---
 
+## Step 8 - Tear DownMore actions
+
+```powershell
+$PROJECT = terraform output -raw project
+Write-Output "Destroying project: $PROJECT"
+terraform destroy --auto-approve -var "project=$PROJECT"
+```
+---
+
 <details>
 <summary>Troubleshooting (Click to expand)</summary>
 
