@@ -1,30 +1,35 @@
 ## Things Left To Do
 
-- Document requesting admin access to install Chocolatey (if restricted)
+- Document requesting admin access to install Chocolatey
 - Find and document Phoenix IP range (then restrict RDS access to it)
 - Once IP is known, make this repo private or move it to an internal Cap repo
 
 
 ---
-
 ### Note: Project Name Prefix
 
-By default, this project uses `wex8` as a prefix for naming resources like:
+This project uses a **project name prefix** to name all key resources:
 
 - the Glue job
 - the RDS database
 - the S3 bucket
-- IAM roles and more
+- IAM roles, and more
 
 This is controlled by the `project` variable in `variables.tf`:
 
 variable "project" {
   description = "Tag / resource name prefix"
   type        = string
-  default     = "wex8"
 }
 
-If you want to change the prefix, edit this file and set a different default — or remove the default entirely to be prompted during `terraform apply`.
+Since there’s **no default**, Terraform will prompt you for a value during `terraform apply`.
+
+Choose a short-ish, lowercase name like `oddment`, `timeywimey`, or `projectx`.
+This value will be prepended to resource names (e.g., `timeywimey-glue-job`, `timeywimey-glue-mysql`, `timeywimey-glue-bucket`, etc.).
+
+**Important:**
+This prefix is also used to name the S3 bucket, which must be **globally unique across all AWS accounts worldwide**.
+If Terraform fails due to a bucket name conflict, try a more unique prefix like `timeywimey-20250621` or include your initials.
 
 
 ## Install prerequisites on Windows using PowerShell
