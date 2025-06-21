@@ -124,7 +124,7 @@ $env:AWS_DEFAULT_REGION = "eu-west-1"
 
 ---
 
-## Step 3 - Clone and Deploy
+## Step 3 - Clone with git and Deploy with terraform
 
 ```powershell
 git clone https://github.com/hacwa/terraform-aws-glue-stack.git
