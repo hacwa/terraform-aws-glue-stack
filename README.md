@@ -12,6 +12,8 @@
 - [Step 6 - Get RDS Credentials](#step-6---get-rds-credentials)
 - [Step 7 - Configure Power BI Desktop](#step-7---configure-power-bi-desktop)
 - [Step 8 - Tear Down](#step-8---tear-down)
+- [Troubleshooting](#troubleshooting)
+  - [Glue](#glue)
 
 ---
 
