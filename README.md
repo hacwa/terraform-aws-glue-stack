@@ -109,7 +109,7 @@ When choosing an account, select **"Access Keys"**  > Powershell — you’ll us
 You have two options:
 
 <details>
-<summary>Option 1 - Persistent (recommended)</summary>
+<summary>Option 1 - Persistent </summary>
 
 1. Create or edit this file:
    `C:\Users\<YourUsername>\.aws\credentials`
@@ -241,6 +241,7 @@ terraform output -raw rds_password
 - Choose **MySQL** as the data source
 - Use the RDS endpoint from `terraform output -raw db_endpoint`
 - Use the credentials from Step 6
+- https://biinsight.com/mysql-and-power-bi-how-does-it-work/
 
 ---
 
