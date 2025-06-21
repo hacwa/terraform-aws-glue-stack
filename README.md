@@ -246,11 +246,8 @@ terraform output -raw rds_password
 ---
 
 <details>
-<summary>Gotchas (Click to expand)</summary>
+<summary>Troubleshooting (Click to expand)</summary>
 
-Troubleshooting section and how to identify / resolve
-
----
 
 <details>
 <summary>Glue (Click to expand)</summary>
