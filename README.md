@@ -260,14 +260,13 @@ terraform destroy --auto-approve -var "project=$PROJECT"
 ---
 
 <details>
-<summary>Troubleshooting (Click to expand)</summary>
-
-
-<details>
-<summary>Glue (Click to expand)</summary>
+<summary><strong>Troubleshooting</strong></summary>
 
 <details>
-<summary>Problem: No Glue jobs found or start-job-run fails</summary>
+<summary><strong>Glue</strong></summary>
+
+<details>
+<summary>Problem: No Glue jobs found or <code>start-job-run</code> fails</summary>
 
 ```powershell
 $PROJECT = terraform output -raw project
@@ -277,7 +276,7 @@ aws glue start-job-run --job-name $JOB_NAME
 
 May return:
 
-```text
+```
 An error occurred (EntityNotFoundException) when calling the StartJobRun operation: Failed to start job run due to missing metadata.
 ```
 
@@ -295,24 +294,15 @@ aws glue list-jobs
 
 </details>
 
----
-
 <details>
 <summary>Fix: Set Region</summary>
 
 ```powershell
 $env:AWS_DEFAULT_REGION = "eu-west-1"
-```
-
-Then re-check:
-
-```powershell
 aws glue list-jobs
 ```
 
 </details>
-
----
 
 <details>
 <summary>Example: Failing session (region not set)</summary>
@@ -328,8 +318,6 @@ aws glue list-jobs
 ```
 
 </details>
-
----
 
 <details>
 <summary>Example: Working session (region set)</summary>
@@ -364,5 +352,4 @@ aws glue start-job-run --job-name $JOB_NAME
 </details>
 
 </details>
-
 </details>
