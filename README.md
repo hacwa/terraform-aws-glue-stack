@@ -32,14 +32,6 @@ This project uses a **project name prefix** to name all key resources:
 - S3 bucket
 - IAM roles
 
-Controlled by the `project` variable in `variables.tf`:
-
-```hcl
-variable "project" {
-  description = "Tag / resource name prefix"
-  type        = string
-}
-```
 
 <details>
 <summary>⚠️ Relying on prompt-based input (not recommended)</summary>
