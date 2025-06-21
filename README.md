@@ -253,7 +253,8 @@ Write-Output "Destroying project: $PROJECT"
 terraform destroy --auto-approve -var "project=$PROJECT"
 ```
 
-## Gotchas
+<details>
+<summary>Gotchas (Click to expand)</summary>
 
 If you're using **temporary AWS credentials** (set via environment variables instead of saved in `~\.aws\config`), you may hit region-related issues.
 
@@ -324,3 +325,5 @@ Expected output:
   "JobRunId": "jr_4cfec1edf8aae74472e4ed5b57c11fe9bdb4f80dbf3d0f9857ee66e6860ccb91"
 }
 ```
+
+</details>
