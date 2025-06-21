@@ -10,7 +10,7 @@ variable "aws_region" {
 variable "project" {
   description = "Tag / resource name prefix"
   type        = string
-  default     = "wex8"
+  default     = ""
 }
 
 variable "owner" {

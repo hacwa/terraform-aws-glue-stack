@@ -1,86 +1,152 @@
-## things left to do
+## Things Left To Do
 
-Find a way to deploy this on a locked down windows laptop
-add steps how to configure power BI
-find out and add phoenix IP range ( then make this private or move somewhere internally)
-steps to tear down
-
+- Document requesting admin access to install Chocolatey (if restricted)
+- Find and document Phoenix IP range (then restrict RDS access to it)
+- Once IP is known, make this repo private or move it to an internal Cap repo
 
 
+---
 
-# Prerequisites
+### Note: Project Name Prefix
 
-Make sure you have:
+By default, this project uses `wex8` as a prefix for naming resources like:
 
-- A terminal with bash or zsh
-- AWS CLI installed
-- Terraform installed
+- the Glue job
+- the RDS database
+- the S3 bucket
+- IAM roles and more
 
-# Step 1 - Create an AWS Account
+This is controlled by the `project` variable in `variables.tf`:
+
+variable "project" {
+  description = "Tag / resource name prefix"
+  type        = string
+  default     = "wex8"
+}
+
+If you want to change the prefix, edit this file and set a different default — or remove the default entirely to be prompted during `terraform apply`.
+
+
+## Install prerequisites on Windows using PowerShell
+
+1. Open PowerShell as Administrator (right-click and choose "Run as administrator").
+
+2. Install Chocolatey:
+
+   Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+3. Exit the shell and reopen PowerShell as Administrator.
+
+4. Install required tools:
+
+   choco install terraform
+   choco install awscli
+   choco install git.install
+
+## Step 1 – Create an AWS Account
 
 Go to https://aws.amazon.com and sign up if you don't already have an account.
 
-# Step 2 - Create an IAM User with Permissions
+If you already have access through Indy, sign in using SSO.
+Once signed in, select **"Access Keys"** when presented with environment options —
+you’ll use those credentials in Step 4.
+
+## Step 2 - Create an IAM User with Permissions
 
 - Go to IAM > Users > Create user
 - Under "Set permissions", choose "Attach policies directly"
 - Click "Create policy" (opens in a new tab)
-- Switch to the "JSON" tab
-- Paste the contents of IAM-permission-policies.json over the default content
-- Click "Next"
-- Name the policy and click "Create policy"
+- Switch to the JSON tab
+- Paste in the contents of IAM-permission-policies.json
+- Click Next, name the policy, and click Create policy
 - Back in the user creation tab, refresh the policy list
-- Search for your new policy, select it, and complete user creation
+- Select your new policy and complete user creation
 
-# Step 3 - Create Access Keys
+## Step 3 - Create Access Keys
 
-- Go to IAM > Users > select your new user
+- Go to IAM > Users > [your new user]
 - Go to the "Security credentials" tab
 - Click "Create access key"
 - Choose "Command Line Interface (CLI)" as the use case
-- Tick the confirmation box and click "Next"
+- Tick the confirmation box and click Next
 - Click "Create access key" and copy or download the keys
 
-# Step 4 - Add AWS Credentials
+## Step 4 – Add AWS Credentials in PowerShell (Windows)
 
-Edit or create this file: ~/.aws/credentials
+You have two options for setting AWS credentials:
 
-Example:
+    ### Option 1 – Persistent (recommended)
+    1. Create or edit this file:
+    C:\Users\<YourUsername>\.aws\credentials
 
-[default]
-aws_access_key_id = AKIAxxxxxxxxxxxxxxx
-aws_secret_access_key = xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    2. Add the following content (replace with your actual keys):
 
-Set the default region to eu-west-1:
+    [default]
+    aws_access_key_id = YOUR_ACCESS_KEY_ID
+    aws_secret_access_key = YOUR_SECRET_ACCESS_KEY
 
-aws configure set region eu-west-1
+    3. Set the default region (PowerShell):
+    aws configure set region eu-west-1
 
-# Step 5 - Clone and Deploy
+    This creates or updates:
+    C:\Users\<YourUsername>\.aws\config
+
+---
+
+### Option 2 – Temporary (current session only)
+
+    In PowerShell, run:
+
+    $env:AWS_ACCESS_KEY_ID = "YOUR_ACCESS_KEY_ID"
+    $env:AWS_SECRET_ACCESS_KEY = "YOUR_SECRET_ACCESS_KEY"
+    $env:AWS_DEFAULT_REGION = "eu-west-1"
+
+    These environment variables will be lost when the shell is closed.
+
+
+## Step 5 – Clone and Deploy
 
 git clone https://github.com/hacwa/terraform-aws-glue-stack.git
 cd terraform-aws-glue-stack
 terraform init
 terraform apply --auto-approve
 
+---
 
+### Important: Note the `db_endpoint` Output
 
-# Step 6 - Create and upload Test Data
+Once the deployment finishes, Terraform will display several outputs — **the only one you need to take note of is:**
+
+- `db_endpoint`
+
+Use this value as the **Server** field when connecting in Power BI.
+Make sure the value ends with `:3306`, for example:
+
+xxxx-xxxxx-xxxxx.xxxxxxxxax.eu-west-1.rds.amazonaws.com:3306
+This is the hostname and port of your MySQL database.
+
+## Step 6 - Create and Upload Test Data
 
 export BUCKET=$(terraform output -raw bucket_name)
-
 printf 'id,name\n1,Alice\n2,Bob\n' > /tmp/demo.csv
-
 aws s3 cp /tmp/demo.csv "s3://$BUCKET/raw/demo.csv"
 
-# Step 7 - Run Glue Job
+## Step 7 - Run Glue Job
 
 aws glue start-job-run --job-name wex8-glue-transform
 
-# Step  - pbtain creds for Power BI
+## Step 8 - Get RDS Credentials for Power BI
 
-terraform output -raw rds_username && \
+terraform output -raw rds_username
 terraform output -raw rds_password
 
+## Step 9 - Configure Power BI Desktop
 
-# Step  - Tear down
-terraform apply --auto-approve
+- Open Power BI Desktop
+- Choose MySQL as a data source
+- Enter the RDS endpoint from: terraform output -raw db_endpoint
+- Use the credentials from Step 8
+
+## Step 10 - Tear Down
+
+terraform destroy --auto-approve
