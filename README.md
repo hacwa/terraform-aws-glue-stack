@@ -86,7 +86,7 @@ If Terraform fails due to a name conflict, try `timeywimey-20250621` or include 
 
 Go to [https://aws.amazon.com](https://aws.amazon.com) and sign up if needed.
 
-If you have access from **Indy**, sign in using **SSO**.
+If you have access from **Indy**, sign in.
 When prompted, select **"Access Keys"** — you’ll use those in Step 2.
 
 ---
