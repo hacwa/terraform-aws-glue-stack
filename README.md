@@ -6,7 +6,6 @@
 - [Step 1 - Create an AWS Account](#step-1---create-an-aws-account)
 - [Step 2 - Add AWS Credentials in PowerShell](#step-2---add-aws-credentials-in-powershell)
 - [Step 3 - Clone and Deploy](#step-3---clone-and-deploy)
-- [Output to Note - db_endpoint](#output-to-note---db_endpoint)
 - [Step 4 - Create and Upload Test Data](#step-4---create-and-upload-test-data)
 - [Step 5 - Run Glue Job](#step-5---run-glue-job)
 - [Step 6 - Get RDS Credentials](#step-6---get-rds-credentials)
