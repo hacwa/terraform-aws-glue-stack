@@ -1,3 +1,20 @@
+## 📘 Table of Contents
+
+- [Things Left To Do](#things-left-to-do)
+- [Project Name Prefix](#project-name-prefix)
+- [Install Prerequisites (Windows + PowerShell)](#install-prerequisites-windows--powershell)
+- [Step 1 – Create an AWS Account](#step-1--create-an-aws-account)
+- [Step 2 – Add AWS Credentials in PowerShell](#step-2--add-aws-credentials-in-powershell)
+- [Step 3 – Clone and Deploy](#step-3--clone-and-deploy)
+- [Step 4 – Note the `db_endpoint` Output](#step-4--note-the-db_endpoint-output)
+- [Step 5 – Create and Upload Test Data](#step-5--create-and-upload-test-data)
+- [Step 6 – Run Glue Job](#step-6--run-glue-job)
+- [Step 7 – Get RDS Credentials](#step-7--get-rds-credentials)
+- [Step 8 – Configure Power BI](#step-8--configure-power-bi)
+- [Step 9 – Tear Down](#step-9--tear-down)
+
+
+
 ## Things Left To Do
 
 - Document requesting admin access to install Chocolatey
