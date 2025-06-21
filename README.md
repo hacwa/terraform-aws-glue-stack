@@ -34,20 +34,41 @@ This project uses a **project name prefix** to name all key resources:
 
 Controlled by the `project` variable in `variables.tf`:
 
+```hcl
+variable "project" {
+  description = "Tag / resource name prefix"
+  type        = string
+}
+```
 
-Since there's **no default**, Terraform will prompt you for a value —
-or you can set it explicitly like this:
+<details>
+<summary>⚠️ Relying on prompt-based input (not recommended)</summary>
+
+If you don’t specify the variable, Terraform will prompt you for it at apply time:
+
+```powershell
+terraform apply --auto-approve
+```
+
+This works, but makes automation and `destroy` less predictable.
+</details>
+
+**Recommended: set the project name explicitly for consistency and reuse**
 
 ```powershell
 terraform apply --auto-approve -var "project=timeywimey20250621"
 ```
 
-Choose a short-ish, lowercase name like `oddment`, `timeywimey`, or `projectx`.
-It will be prepended to resource names like `timeywimey-glue-job`, `timeywimey-glue-bucket`, etc.
+ Choose a short-ish, lowercase name like `oddment`, `timeywimey`, or `projectx`.
+It will be prepended to all resource names like:
+
+- `timeywimey-glue-job`
+- `timeywimey-glue-mysql`
+- `timeywimey-glue-bucket`
 
 **Important:**
-This prefix is also used in the S3 bucket name, which must be **globally unique across all AWS accounts**.
-If Terraform fails due to a name conflict, try `timeywimey20250621` or include your initials.
+This prefix is used to name the **S3 bucket**, which must be **globally unique across all AWS accounts**.
+If Terraform fails due to a name conflict, try a more specific prefix like `timeywimey20250621` or add your initials.
 
 ---
 
