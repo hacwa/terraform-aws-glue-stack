@@ -1,4 +1,4 @@
-## 📘 Table of Contents
+## Table of Contents
 
 - [Things Left To Do](#things-left-to-do)
 - [Project Name Prefix](#project-name-prefix)
