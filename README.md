@@ -49,9 +49,14 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocola
 
 4. Install required tools:
 ```powershell
-   choco install terraform
-   choco install awscli
-   choco install git.install
+choco install terraform
+```
+```powershell
+```
+choco install awscli
+```powershell
+```
+choco install git.install
 ```
 
 ## Step 1 – Create an AWS Account
