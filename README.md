@@ -245,22 +245,15 @@ terraform output -raw rds_password
 
 ---
 
-## Step 8 - Tear Down
-
-```powershell
-$PROJECT = terraform output -raw project
-Write-Output "Destroying project: $PROJECT"
-terraform destroy --auto-approve -var "project=$PROJECT"
-```
-
 <details>
 <summary>Gotchas (Click to expand)</summary>
 
-If you're using **temporary AWS credentials** (set via environment variables instead of saved in `~\.aws\config`), you may hit region-related issues.
+If you're using **temporary AWS credentials** (via environment variables rather than saved in `~\.aws\config`), region settings may cause errors.
 
-### Symptom: No Glue jobs or `start-job-run` fails
+---
 
-Example:
+<details>
+<summary>Problem: No Glue jobs found or start-job-run fails</summary>
 
 ```powershell
 $PROJECT = terraform output -raw project
@@ -268,19 +261,17 @@ $JOB_NAME = "$PROJECT-glue-transform"
 aws glue start-job-run --job-name $JOB_NAME
 ```
 
-Results in:
+May return:
 
 ```text
 An error occurred (EntityNotFoundException) when calling the StartJobRun operation: Failed to start job run due to missing metadata.
 ```
 
-Or:
+Or listing jobs might show:
 
 ```powershell
 aws glue list-jobs
 ```
-
-Returns:
 
 ```json
 {
@@ -288,19 +279,51 @@ Returns:
 }
 ```
 
-### Fix: Set the AWS region
+</details>
+
+---
+
+<details>
+<summary>Fix: Set AWS region in your session</summary>
 
 ```powershell
 $env:AWS_DEFAULT_REGION = "eu-west-1"
 ```
 
-Then re-run:
+Re-check:
 
 ```powershell
 aws glue list-jobs
 ```
 
-Expected output:
+</details>
+
+---
+
+<details>
+<summary>Example: Failing session (no region)</summary>
+
+```powershell
+aws glue list-jobs
+```
+
+```json
+{
+  "JobNames": []
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Example: Working session (region set)</summary>
+
+```powershell
+$env:AWS_DEFAULT_REGION = "eu-west-1"
+aws glue list-jobs
+```
 
 ```json
 {
@@ -310,7 +333,7 @@ Expected output:
 }
 ```
 
-Once the job appears, start it manually:
+Start the job:
 
 ```powershell
 $PROJECT = "timeywimey20250621"
@@ -318,12 +341,12 @@ $JOB_NAME = "$PROJECT-glue-transform"
 aws glue start-job-run --job-name $JOB_NAME
 ```
 
-Expected output:
-
 ```json
 {
   "JobRunId": "jr_4cfec1edf8aae74472e4ed5b57c11fe9bdb4f80dbf3d0f9857ee66e6860ccb91"
 }
 ```
+
+</details>
 
 </details>
