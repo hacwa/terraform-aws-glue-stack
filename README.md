@@ -2,18 +2,18 @@
 
 - [Things Left To Do](#things-left-to-do)
 - [Project Name Prefix](#project-name-prefix)
-- [Install Prerequisites (Windows + PowerShell)](#install-prerequisites-windows--powershell)
-- [Step 1 – Create an AWS Account](#step-1--create-an-aws-account)
-- [Step 2 – Add AWS Credentials in PowerShell](#step-2--add-aws-credentials-in-powershell)
-- [Step 3 – Clone and Deploy](#step-3--clone-and-deploy)
-- [Step 4 – Note the `db_endpoint` Output](#step-4--note-the-db_endpoint-output)
-- [Step 5 – Create and Upload Test Data](#step-5--create-and-upload-test-data)
-- [Step 6 – Run Glue Job](#step-6--run-glue-job)
-- [Step 7 – Get RDS Credentials](#step-7--get-rds-credentials)
-- [Step 8 – Configure Power BI](#step-8--configure-power-bi)
-- [Step 9 – Tear Down](#step-9--tear-down)
+- [Install Prerequisites Windows + PowerShell](#install-prerequisites-windows--powershell)
+- [Step 1 - Create an AWS Account](#step-1---create-an-aws-account)
+- [Step 2 - Add AWS Credentials in PowerShell](#step-2---add-aws-credentials-in-powershell)
+- [Step 3 - Clone and Deploy](#step-3---clone-and-deploy)
+- [Output to Note - db_endpoint](#output-to-note---db_endpoint)
+- [Step 4 - Create and Upload Test Data](#step-4---create-and-upload-test-data)
+- [Step 5 - Run Glue Job](#step-5---run-glue-job)
+- [Step 6 - Get RDS Credentials](#step-6---get-rds-credentials)
+- [Step 7 - Configure Power BI Desktop](#step-7---configure-power-bi-desktop)
+- [Step 8 - Tear Down](#step-8---tear-down)
 
-
+---
 
 ## Things Left To Do
 
@@ -52,7 +52,7 @@ If Terraform fails due to a name conflict, try `timeywimey-20250621` or include 
 
 ---
 
-# Install Prerequisites (Windows + PowerShell)
+## Install Prerequisites Windows + PowerShell
 
 1. **Open PowerShell as Administrator**
 
@@ -83,46 +83,20 @@ If Terraform fails due to a name conflict, try `timeywimey-20250621` or include 
 
 ---
 
-## Step 1 – Create an AWS Account
+## Step 1 - Create an AWS Account
 
 Go to [https://aws.amazon.com](https://aws.amazon.com) and sign up if needed.
 
 If you have access from **Indy**, sign in using **SSO**.
-When prompted, select **"Access Keys"** — you’ll use those in Step 4.
+When prompted, select **"Access Keys"** — you’ll use those in Step 2.
 
 ---
 
-> Skip Steps 2 and 3 if using sandbox from Indy — you do **not** need to create an IAM user or generate access keys manually.
-
----
-
-## Step 2 – Create an IAM User with Permissions
-
-- Go to IAM > Users > Create user
-- Under **Set permissions**, choose **Attach policies directly**
-- Click **Create policy** → switch to the **JSON** tab
-- Paste contents of `IAM-permission-policies.json`
-- Click **Next**, name it, and click **Create policy**
-- Back in the user creation tab, refresh and attach the new policy
-- Complete user creation
-
----
-
-## Step 3 – Create Access Keys
-
-- IAM > Users > [your new user] > **Security credentials** tab
-- Click **Create access key**
-- Choose **Command Line Interface (CLI)**
-- Confirm and create
-- Copy or download the keys
-
----
-
-## Step 4 – Add AWS Credentials in PowerShell
+## Step 2 - Add AWS Credentials in PowerShell
 
 You have two options:
 
-### Option 1 – Persistent
+### Option 1 - Persistent
 
 1. Create or edit this file:
    `C:\Users\<YourUsername>\.aws\credentials`
@@ -141,7 +115,7 @@ You have two options:
     aws configure set region eu-west-1
     ```
 
-### Option 2 – Temporary (session-only)
+### Option 2 - Temporary (session-only)
 
 ```powershell
 $env:AWS_ACCESS_KEY_ID = "YOUR_ACCESS_KEY_ID"
@@ -151,7 +125,7 @@ $env:AWS_DEFAULT_REGION = "eu-west-1"
 
 ---
 
-## Step 5 – Clone and Deploy
+## Step 3 - Clone and Deploy
 
 ```powershell
 git clone https://github.com/hacwa/terraform-aws-glue-stack.git
@@ -171,7 +145,7 @@ terraform apply --auto-approve
 
 ---
 
-### 🔎 Output to Note: `db_endpoint`
+## Output to Note - db_endpoint
 
 After deploy, Terraform will print outputs.
 **The one you need to take note of is:**
@@ -186,7 +160,7 @@ xxxx-xxxxx-xxxxx.xxxxx.eu-west-1.rds.amazonaws.com:3306
 
 ---
 
-## Step 6 – Create and Upload Test Data
+## Step 4 - Create and Upload Test Data
 
 ```powershell
 $BUCKET = terraform output -raw bucket_name
@@ -202,7 +176,7 @@ aws s3 cp "$env:TEMP\demo.csv" "s3://$BUCKET/raw/demo.csv"
 
 ---
 
-## Step 7 – Run Glue Job
+## Step 5 - Run Glue Job
 
 ```powershell
 $PROJECT = terraform output -raw project
@@ -211,7 +185,7 @@ aws glue start-job-run --job-name "$PROJECT-glue-transform"
 
 ---
 
-## Step 8 – Get RDS Credentials
+## Step 6 - Get RDS Credentials
 
 ```powershell
 terraform output -raw rds_username
@@ -223,16 +197,16 @@ terraform output -raw rds_password
 
 ---
 
-## Step 9 – Configure Power BI Desktop
+## Step 7 - Configure Power BI Desktop
 
 - Open Power BI Desktop
 - Choose **MySQL** as the data source
 - Use the RDS endpoint from `terraform output -raw db_endpoint`
-- Use the credentials from Step 8
+- Use the credentials from Step 6
 
 ---
 
-## Step 10 – Tear Down
+## Step 8 - Tear Down
 
 ```powershell
 terraform destroy --auto-approve
