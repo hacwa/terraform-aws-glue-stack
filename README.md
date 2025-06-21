@@ -253,14 +253,13 @@ Write-Output "Destroying project: $PROJECT"
 terraform destroy --auto-approve -var "project=$PROJECT"
 ```
 
-
 ## Gotchas
 
-If you're using **temporary AWS credentials** (set via environment variables rather than saved in `~\.aws\config`), you may hit region-related issues.
+If you're using **temporary AWS credentials** (set via environment variables instead of saved in `~\.aws\config`), you may hit region-related issues.
 
-### Problem: No Glue jobs found or `start-job-run` fails
+### Symptom: No Glue jobs or `start-job-run` fails
 
-Example failure:
+Example:
 
 ```powershell
 $PROJECT = terraform output -raw project
@@ -280,15 +279,15 @@ Or:
 aws glue list-jobs
 ```
 
+Returns:
+
 ```json
 {
   "JobNames": []
 }
 ```
 
----
-
-### Fix: Set the AWS region in your PowerShell session
+### Fix: Set the AWS region
 
 ```powershell
 $env:AWS_DEFAULT_REGION = "eu-west-1"
@@ -300,7 +299,7 @@ Then re-run:
 aws glue list-jobs
 ```
 
-You should now see:
+Expected output:
 
 ```json
 {
@@ -310,7 +309,7 @@ You should now see:
 }
 ```
 
-Once verified, start the job with:
+Once the job appears, start it manually:
 
 ```powershell
 $PROJECT = "timeywimey20250621"
@@ -318,7 +317,7 @@ $JOB_NAME = "$PROJECT-glue-transform"
 aws glue start-job-run --job-name $JOB_NAME
 ```
 
-Returns:
+Expected output:
 
 ```json
 {
