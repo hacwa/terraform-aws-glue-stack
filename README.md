@@ -70,12 +70,12 @@ If Terraform fails due to a name conflict, try `timeywimey-20250621` or include 
 
 Go to [https://aws.amazon.com](https://aws.amazon.com) and sign up if needed.
 
-If you have access via **Indy**, sign in using **SSO**.
+If you have access from **Indy**, sign in using **SSO**.
 When prompted, select **"Access Keys"** — you’ll use those in Step 4.
 
 ---
 
-> Skip Steps 2 and 3 if using Indy — you do **not** need to create an IAM user or generate access keys manually.
+> Skip Steps 2 and 3 if using sandbox from Indy — you do **not** need to create an IAM user or generate access keys manually.
 
 ---
 
