@@ -258,9 +258,11 @@ Write-Output "Destroying project: $PROJECT"
 terraform destroy --auto-approve -var "project=$PROJECT"
 ```
 ---
+## Troubleshooting
 
 <details>
 <summary><strong>Troubleshooting</strong></summary>
+### Glue
 
 <details>
 <summary><strong>Glue</strong></summary>
