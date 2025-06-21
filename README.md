@@ -153,8 +153,8 @@ Use this value as the **Server** field when connecting in Power BI.
 Make sure the value ends with `:3306`, for example:
 ```powershell
 xxxx-xxxxx-xxxxx.xxxxxxxxax.eu-west-1.rds.amazonaws.com:3306
-This is the hostname and port of your MySQL database.
 ```
+This is the hostname and port of your MySQL database.
 ## Step 6 - Create and Upload Test Data
 
 ```powershell
