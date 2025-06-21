@@ -124,10 +124,22 @@ You have two options for setting AWS credentials:
 
 ## Step 5 – Clone and Deploy
 
+```powershell
 git clone https://github.com/hacwa/terraform-aws-glue-stack.git
+```
+
+```powershell
 cd terraform-aws-glue-stack
+```
+
+```powershell
 terraform init
+```
+
+```powershell
 terraform apply --auto-approve
+```
+
 
 ---
 
@@ -145,18 +157,36 @@ This is the hostname and port of your MySQL database.
 
 ## Step 6 - Create and Upload Test Data
 
-export BUCKET=$(terraform output -raw bucket_name)
-printf 'id,name\n1,Alice\n2,Bob\n' > /tmp/demo.csv
-aws s3 cp /tmp/demo.csv "s3://$BUCKET/raw/demo.csv"
+```powershell
+$BUCKET = terraform output -raw bucket_name
+```
+
+```powershell
+"id,name`n1,Alice`n2,Bob" | Out-File -Encoding ASCII -FilePath $env:TEMP\demo.csv
+```
+
+```powershell
+aws s3 cp "$env:TEMP\demo.csv" "s3://$BUCKET/raw/demo.csv"
+```
+
 
 ## Step 7 - Run Glue Job
 
-aws glue start-job-run --job-name wex8-glue-transform
+```powershell
+$PROJECT = terraform output -raw project
+aws glue start-job-run --job-name "$PROJECT-glue-transform"
+```
 
 ## Step 8 - Get RDS Credentials for Power BI
 
+```powershell
 terraform output -raw rds_username
+```
+
+```powershell
 terraform output -raw rds_password
+```
+
 
 ## Step 9 - Configure Power BI Desktop
 
@@ -167,4 +197,6 @@ terraform output -raw rds_password
 
 ## Step 10 - Tear Down
 
+```powershell
 terraform destroy --auto-approve
+```
