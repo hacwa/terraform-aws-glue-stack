@@ -217,11 +217,9 @@ aws s3 cp "$env:TEMP\$PROJECT-demo.csv" "s3://$BUCKET/raw/$PROJECT-demo.csv"
 ## Step 5 - Run Glue Job
 
 ```powershell
-$PROJECT = "timeywimey20250621"
+$PROJECT = terraform output -raw project
 $JOB_NAME = "$PROJECT-glue-transform"
 aws glue start-job-run --job-name $JOB_NAME
-
-
 ```
 
 ---
@@ -253,4 +251,77 @@ terraform output -raw rds_password
 $PROJECT = terraform output -raw project
 Write-Output "Destroying project: $PROJECT"
 terraform destroy --auto-approve -var "project=$PROJECT"
+```
+
+
+## Gotchas
+
+If you're using **temporary AWS credentials** (set via environment variables rather than saved in `~\.aws\config`), you may hit region-related issues.
+
+### Problem: No Glue jobs found or `start-job-run` fails
+
+Example failure:
+
+```powershell
+$PROJECT = terraform output -raw project
+$JOB_NAME = "$PROJECT-glue-transform"
+aws glue start-job-run --job-name $JOB_NAME
+```
+
+Results in:
+
+```text
+An error occurred (EntityNotFoundException) when calling the StartJobRun operation: Failed to start job run due to missing metadata.
+```
+
+Or:
+
+```powershell
+aws glue list-jobs
+```
+
+```json
+{
+  "JobNames": []
+}
+```
+
+---
+
+### Fix: Set the AWS region in your PowerShell session
+
+```powershell
+$env:AWS_DEFAULT_REGION = "eu-west-1"
+```
+
+Then re-run:
+
+```powershell
+aws glue list-jobs
+```
+
+You should now see:
+
+```json
+{
+  "JobNames": [
+    "timeywimey20250621-glue-transform"
+  ]
+}
+```
+
+Once verified, start the job with:
+
+```powershell
+$PROJECT = "timeywimey20250621"
+$JOB_NAME = "$PROJECT-glue-transform"
+aws glue start-job-run --job-name $JOB_NAME
+```
+
+Returns:
+
+```json
+{
+  "JobRunId": "jr_4cfec1edf8aae74472e4ed5b57c11fe9bdb4f80dbf3d0f9857ee66e6860ccb91"
+}
 ```
