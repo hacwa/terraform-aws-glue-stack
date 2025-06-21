@@ -34,18 +34,12 @@ This project uses a **project name prefix** to name all key resources:
 
 Controlled by the `project` variable in `variables.tf`:
 
-```hcl
-variable "project" {
-  description = "Tag / resource name prefix"
-  type        = string
-}
-```
 
 Since there's **no default**, Terraform will prompt you for a value —
 or you can set it explicitly like this:
 
 ```powershell
-terraform apply --auto-approve -var "project=timeywimey"
+terraform apply --auto-approve -var "project=timeywimey20250621"
 ```
 
 Choose a short-ish, lowercase name like `oddment`, `timeywimey`, or `projectx`.
@@ -53,7 +47,7 @@ It will be prepended to resource names like `timeywimey-glue-job`, `timeywimey-g
 
 **Important:**
 This prefix is also used in the S3 bucket name, which must be **globally unique across all AWS accounts**.
-If Terraform fails due to a name conflict, try `timeywimey-20250621` or include your initials.
+If Terraform fails due to a name conflict, try `timeywimey20250621` or include your initials.
 
 ---
 
@@ -145,13 +139,13 @@ terraform init
 ```
 
 ```powershell
-terraform apply --auto-approve -var "project=timeywimey"
+terraform apply --auto-approve"
 ```
 
 Or capture and reuse the project name dynamically:
 
 ```powershell
-$PROJECT = "timeywimey"
+$PROJECT = "timeywimey20250621"
 terraform apply --auto-approve -var "project=$PROJECT"
 ```
 
