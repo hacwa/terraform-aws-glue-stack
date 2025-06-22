@@ -13,7 +13,7 @@ resource "aws_glue_connection" "mysql" {
 
   connection_properties = {
     JDBC_CONNECTION_URL = "jdbc:mysql://${module.rds.db_instance_endpoint}/${var.db_name}"
-    SECRET_ID           = local.rds_secret_arn # ← always correct
+    SECRET_ID           = local.rds_secret_arn
   }
 
   tags = var.tags
@@ -44,7 +44,6 @@ resource "aws_iam_role_policy" "glue_ec2_route_read" {
 
 #########################################################
 # Give the Glue role minimal EC2 read access
-# (adds exactly one action: ec2:DescribeVpcEndpoints)
 #########################################################
 
 resource "aws_iam_role_policy" "glue_ec2_readonly" {
@@ -76,7 +75,6 @@ resource "aws_iam_role_policy" "glue_ec2_tag" {
     Statement = [{
       Effect = "Allow",
       Action = "ec2:CreateTags",
-      # Glue tags only the ENIs it creates, so "*" is fine
       Resource = "*"
     }]
   })
@@ -89,8 +87,8 @@ resource "aws_glue_connection" "network" {
   connection_type = "NETWORK"
 
   physical_connection_requirements {
-    subnet_id              = module.vpc.private_subnets[0] # e.g. subnet-043c57660efc03b43
-    availability_zone      = "${var.aws_region}a"          # match the subnet’s AZ
+    subnet_id              = module.vpc.private_subnets[0]
+    availability_zone      = "${var.aws_region}a"
     security_group_id_list = [aws_security_group.sg_glue_jobs.id]
   }
 

@@ -1,6 +1,3 @@
-#############################################
-# GLUE — connection · crawler · job · script
-#############################################
 ###############################################################################
 # glue_connection_mysql.tf
 # Glue JDBC connection that pulls creds from the rds_creds secret
