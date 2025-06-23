@@ -19,7 +19,7 @@ data "aws_secretsmanager_secret_version" "db_secret" {
 
 output "rds_username" {
   sensitive = true
-  value = jsondecode(data.aws_secretsmanager_secret_version.db_secret.secret_string)["username"]
+  value     = jsondecode(data.aws_secretsmanager_secret_version.db_secret.secret_string)["username"]
 }
 
 output "rds_password" {

@@ -3,19 +3,21 @@
 # Glue JDBC connection that pulls creds from the rds_creds secret
 ###############################################################################
 
+resource "aws_glue_catalog_database" "raw" {
+  name = "wex_raw"
+}
 
 resource "aws_glue_crawler" "raw_csv" {
-  name          = "${local.name_prefix}-raw-csv"
+  name          = "wex-raw-csv"
   role          = aws_iam_role.glue.arn
-  database_name = "wex_raw"
+  database_name = aws_glue_catalog_database.raw.name
 
   s3_target {
-    # MUST be s3://  URI for provider ≥ 5.x
-    path = "s3://${aws_s3_bucket.data.bucket}/raw/"
+    path = "s3://${aws_s3_bucket.data.id}/raw/"
   }
 
   schema_change_policy {
-    update_behavior = "UPDATE_IN_DATABASE"
+    update_behavior = "LOG"
     delete_behavior = "DEPRECATE_IN_DATABASE"
   }
 

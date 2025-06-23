@@ -2,6 +2,7 @@
 # Glue JDBC connection wired to the ARN pulled above
 ###############################################################################
 
+
 resource "aws_glue_connection" "mysql" {
   name            = "wex-glue-mysql-conn"
   connection_type = "JDBC"
@@ -18,6 +19,7 @@ resource "aws_glue_connection" "mysql" {
 
   tags = var.tags
 }
+
 
 
 
@@ -73,8 +75,8 @@ resource "aws_iam_role_policy" "glue_ec2_tag" {
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Effect = "Allow",
-      Action = "ec2:CreateTags",
+      Effect   = "Allow",
+      Action   = "ec2:CreateTags",
       Resource = "*"
     }]
   })
