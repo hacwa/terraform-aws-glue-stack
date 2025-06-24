@@ -46,23 +46,23 @@ job.init(args["JOB_NAME"], args)
 # ------------------------------------------------------------------ #
 raw_path = f"s3://{args['s3_bucket']}/raw/"
 
-df_raw = spark.read.option("header", True).csv(raw_path)
+
+df_raw = spark.read \
+         .format("csv") \
+         .option("header", "true") \
+         .option("inferSchema", "true") \
+         .csv(raw_path)
 if not df_raw.columns:
     raise RuntimeError("No CSV files found under /raw/, nothing to process")
 
-df_clean = (
-    df_raw.dropDuplicates()
-          .filter("id IS NOT NULL")
-)
-
 (
-    df_clean.write.format("jdbc")
+    df_raw.write.format("jdbc")
     .option("url", jdbc_url)
-    .option("dbtable", "clean_data")
+    .option("dbtable", "wex_data")
     .option("user", db_user)
     .option("password", db_pass)
     .option("driver", "com.mysql.cj.jdbc.Driver")
-    .mode("append")
+    .mode("overwrite")
     .save()
 )
 
